@@ -3,8 +3,14 @@ const express = require("express")
 const getPort = require("get-port")
 
 module.exports = {
-  bootstrapApp: async ({ cwd } = {}) => {
+  bootstrapApp: async ({ cwd, env = {} } = {}) => {
     const app = express()
+
+    if (env) {
+      Object.entries(env).forEach(([key, value]) => {
+        process.env[key] = value
+      })
+    }
 
     const loaders = require("@medusajs/medusa/dist/loaders").default
 
